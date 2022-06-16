@@ -141,7 +141,7 @@ def follow_index(request):
 
 @login_required
 def profile_follow(request, username):
-    author = User.objects.get(username=username)
+    author = get_object_or_404(User, username=username)
     is_not_subscribe = not request.user.follower.filter(
         author=author,
     ).exists()

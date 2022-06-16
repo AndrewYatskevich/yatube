@@ -18,25 +18,26 @@ class UsersPagesTests(TestCase):
         self.authorized_client.force_login(self.user)
 
     def test_pages_uses_correct_template(self):
-        templates_pages_names = {
-            reverse('users:signup'): 'users/signup.html',
-            reverse('users:login'): 'users/login.html',
-            reverse('users:password_change'):
-                'users/password_change_form.html',
-            reverse('users:password_change_done'):
-                'users/password_change_done.html',
-            reverse('users:password_reset'): 'users/password_reset_form.html',
-            reverse('users:password_reset_done'):
-                'users/password_reset_done.html',
-            reverse(
+        templates_pages_names = (
+            (reverse('users:signup'), 'users/signup.html'),
+            (reverse('users:login'), 'users/login.html'),
+            (reverse('users:password_change'),
+                'users/password_change_form.html'),
+            (reverse('users:password_change_done'),
+                'users/password_change_done.html'),
+            (reverse('users:password_reset'),
+             'users/password_reset_form.html'),
+            (reverse('users:password_reset_done'),
+                'users/password_reset_done.html'),
+            (reverse(
                 'users:password_reset_confirm',
                 args=('test_uidb64', 'test_token')
-            ): 'users/password_reset_confirm.html',
-            reverse('users:password_reset_complete'):
-                'users/password_reset_complete.html',
-            reverse('users:logout'): 'users/logged_out.html',
-        }
-        for reverse_name, template in templates_pages_names.items():
+            ), 'users/password_reset_confirm.html'),
+            (reverse('users:password_reset_complete'),
+                'users/password_reset_complete.html'),
+            (reverse('users:logout'), 'users/logged_out.html'),
+        )
+        for reverse_name, template in templates_pages_names:
             with self.subTest(reverse_name=reverse_name):
                 response = self.authorized_client.get(reverse_name)
                 self.assertTemplateUsed(response, template)

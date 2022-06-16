@@ -61,13 +61,13 @@ class PostModelTest(TestCase):
     def test_post_model_have_correct_verbose_name(self):
         """Проверяем корректность verbose_name"""
         post = PostModelTest.post
-        field_verboses = {
-            'text': 'Текст поста',
-            'pub_date': 'Дата публикации',
-            'author': 'Автор',
-            'group': 'Группа',
-        }
-        for field, expected_value in field_verboses.items():
+        field_verboses = (
+            ('text', 'Текст поста'),
+            ('pub_date', 'Дата публикации'),
+            ('author', 'Автор'),
+            ('group', 'Группа'),
+        )
+        for field, expected_value in field_verboses:
             with self.subTest(field=field):
                 self.assertEqual(
                     post._meta.get_field(field).verbose_name,
@@ -77,12 +77,12 @@ class PostModelTest(TestCase):
     def test_group_model_have_correct_verbose_name(self):
         """Проверяем корректность verbose_name"""
         group = PostModelTest.group
-        field_verboses = {
-            'title': 'Заголовок',
-            'slug': 'Ссылка',
-            'description': 'Описание',
-        }
-        for field, expected_value in field_verboses.items():
+        field_verboses = (
+            ('title', 'Заголовок'),
+            ('slug', 'Ссылка'),
+            ('description', 'Описание'),
+        )
+        for field, expected_value in field_verboses:
             with self.subTest(field=field):
                 self.assertEqual(
                     group._meta.get_field(field).verbose_name,
@@ -92,11 +92,11 @@ class PostModelTest(TestCase):
     def test_comment_model_have_correct_verbose_name(self):
         """Проверяем корректность verbose_name"""
         comment = PostModelTest.comment
-        field_verboses = {
-            'text': 'Текст комментария',
-            'created': 'Дата комментария',
-        }
-        for field, expected_value in field_verboses.items():
+        field_verboses = (
+            ('text', 'Текст комментария'),
+            ('created', 'Дата комментария'),
+        )
+        for field, expected_value in field_verboses:
             with self.subTest(field=field):
                 self.assertEqual(
                     comment._meta.get_field(field).verbose_name,
@@ -106,11 +106,11 @@ class PostModelTest(TestCase):
     def test_post_model_have_correct_help_text(self):
         """Проверяем корректность verbose_name"""
         post = PostModelTest.post
-        field_help_texts = {
-            'text': 'Введите текст поста',
-            'group': 'Выберите группу',
-        }
-        for field, expected_value in field_help_texts.items():
+        field_help_texts = (
+            ('text', 'Введите текст поста'),
+            ('group', 'Выберите группу'),
+        )
+        for field, expected_value in field_help_texts:
             with self.subTest(field=field):
                 self.assertEqual(
                     post._meta.get_field(field).help_text, expected_value)

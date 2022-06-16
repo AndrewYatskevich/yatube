@@ -75,19 +75,19 @@ class PostsPagesTests(TestCase):
         self.authorized_client.force_login(self.user)
 
     def test_pages_uses_correct_template(self):
-        templates_pages_names = {
-            INDEX_URL: 'posts/index.html',
-            GROUP_LIST_URL: 'posts/group_list.html',
-            PROFILE_URL: 'posts/profile.html',
-            POST_CREATE_URL: 'posts/create_post.html',
-            reverse(
+        templates_pages_names = (
+            (INDEX_URL, 'posts/index.html'),
+            (GROUP_LIST_URL, 'posts/group_list.html'),
+            (PROFILE_URL, 'posts/profile.html'),
+            (POST_CREATE_URL, 'posts/create_post.html'),
+            (reverse(
                 POST_DETAIL_URL, kwargs={'post_id': PostsPagesTests.POST_ID}
-            ): 'posts/post_detail.html',
-            reverse(
+            ), 'posts/post_detail.html'),
+            (reverse(
                 POST_EDIT_URL, kwargs={'post_id': PostsPagesTests.POST_ID}
-            ): 'posts/create_post.html',
-        }
-        for reverse_name, template in templates_pages_names.items():
+            ), 'posts/create_post.html'),
+        )
+        for reverse_name, template in templates_pages_names:
             with self.subTest(reverse_name=reverse_name):
                 response = self.authorized_client.get(reverse_name)
                 self.assertTemplateUsed(response, template)

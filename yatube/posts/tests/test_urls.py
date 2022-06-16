@@ -37,13 +37,13 @@ class PostsURLTests(TestCase):
 
     def test_templates_and_urls_available_to_all_users(self):
         """Страницы с корректными шаблонами, доступные всем пользователям"""
-        url_template_names = {
-            '/': 'posts/index.html',
-            f'/group/{GROUP_SLUG}/': 'posts/group_list.html',
-            f'/profile/{USER_USERNAME}/': 'posts/profile.html',
-            f'/posts/{PostsURLTests.POST_ID}/': 'posts/post_detail.html',
-        }
-        for address, template in url_template_names.items():
+        url_template_names = (
+            ('/', 'posts/index.html'),
+            (f'/group/{GROUP_SLUG}/', 'posts/group_list.html'),
+            (f'/profile/{USER_USERNAME}/', 'posts/profile.html'),
+            (f'/posts/{PostsURLTests.POST_ID}/', 'posts/post_detail.html'),
+        )
+        for address, template in url_template_names:
             with self.subTest(address=address):
                 response = self.guest_client.get(address)
                 self.assertEqual(response.status_code, HTTPStatus.OK)
@@ -52,10 +52,10 @@ class PostsURLTests(TestCase):
     def test_templates_and_urls_available_to_authorized_users(self):
         """Страницы с корректными шаблонами, доступные авторизованным
         пользователям """
-        url_template_names = {
-            '/create/': 'posts/create_post.html',
-        }
-        for address, template in url_template_names.items():
+        url_template_names = (
+            ('/create/', 'posts/create_post.html'),
+        )
+        for address, template in url_template_names:
             with self.subTest(address=address):
                 response = self.authorized_client.get(address)
                 self.assertEqual(response.status_code, HTTPStatus.OK)
@@ -63,10 +63,11 @@ class PostsURLTests(TestCase):
 
     def test_templates_and_urls_available_to_post_author(self):
         """Страницы с корректными шаблонами, доступные автору поста """
-        url_template_names = {
-            f'/posts/{PostsURLTests.POST_ID}/edit/': 'posts/create_post.html',
-        }
-        for address, template in url_template_names.items():
+        url_template_names = (
+            (f'/posts/{PostsURLTests.POST_ID}/edit/',
+             'posts/create_post.html'),
+        )
+        for address, template in url_template_names:
             with self.subTest(address=address):
                 response = self.post_author.get(address)
                 self.assertEqual(response.status_code, HTTPStatus.OK)

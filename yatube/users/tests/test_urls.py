@@ -17,11 +17,11 @@ class UsersURLTests(TestCase):
 
     def test_templates_and_urls_available_to_unauthorized_users(self):
         """Страницы, доступные неавторизованных пользователям"""
-        url_template_names = {
-            '/auth/signup/': 'users/signup.html',
-            '/auth/login/': 'users/login.html',
-        }
-        for address, template in url_template_names.items():
+        url_template_names = (
+            ('/auth/signup/', 'users/signup.html'),
+            ('/auth/login/', 'users/login.html'),
+        )
+        for address, template in url_template_names:
             with self.subTest(address=address):
                 response = self.guest_client.get(address)
                 self.assertEqual(response.status_code, HTTPStatus.OK)
@@ -29,17 +29,17 @@ class UsersURLTests(TestCase):
 
     def test_templates_and_urls_available_to_authorized_users(self):
         """Страницы, доступные авторизованным пользователям """
-        url_template_names = {
-            '/auth/password_change/': 'users/password_change_form.html',
-            '/auth/password_change/done/': 'users/password_change_done.html',
-            '/auth/password_reset/': 'users/password_reset_form.html',
-            '/auth/password_reset/done/': 'users/password_reset_done.html',
-            '/auth/reset/<uidb64>/<token>/':
-                'users/password_reset_confirm.html',
-            '/auth/reset/done/': 'users/password_reset_complete.html',
-            '/auth/logout/': 'users/logged_out.html',
-        }
-        for address, template in url_template_names.items():
+        url_template_names = (
+            ('/auth/password_change/', 'users/password_change_form.html'),
+            ('/auth/password_change/done/', 'users/password_change_done.html'),
+            ('/auth/password_reset/', 'users/password_reset_form.html'),
+            ('/auth/password_reset/done/', 'users/password_reset_done.html'),
+            ('/auth/reset/<uidb64>/<token>/',
+                'users/password_reset_confirm.html'),
+            ('/auth/reset/done/', 'users/password_reset_complete.html'),
+            ('/auth/logout/', 'users/logged_out.html'),
+        )
+        for address, template in url_template_names:
             with self.subTest(address=address):
                 response = self.authorized_client.get(address)
                 self.assertEqual(response.status_code, HTTPStatus.OK)
