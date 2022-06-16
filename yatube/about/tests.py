@@ -3,6 +3,9 @@ from django.urls import reverse
 
 from http import HTTPStatus
 
+AUTHOR_URL = reverse('about:author')
+TECH_URL = reverse('about:tech')
+
 
 class AboutTests(TestCase):
     def setUp(self):
@@ -20,12 +23,20 @@ class AboutTests(TestCase):
                 self.assertEqual(response.status_code, HTTPStatus.OK)
                 self.assertTemplateUsed(response, template)
 
-    def test_pages_uses_correct_template(self):
+    def test_pages_use_correct_template(self):
         templates_pages_names = {
-            reverse('about:author'): 'about/author.html',
-            reverse('about:tech'): 'about/tech.html',
+            AUTHOR_URL: 'about/author.html',
+            TECH_URL: 'about/tech.html',
         }
         for reverse_name, template in templates_pages_names.items():
             with self.subTest(reverse_name=reverse_name):
                 response = self.guest_client.get(reverse_name)
                 self.assertTemplateUsed(response, template)
+
+    def test_author_page_accessible_by_name(self):
+        response = self.guest_client.get(AUTHOR_URL)
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+
+    def test_tech_page_accessible_by_name(self):
+        response = self.guest_client.get(TECH_URL)
+        self.assertEqual(response.status_code, HTTPStatus.OK)

@@ -20,6 +20,13 @@ UPLOADED_IMG = SimpleUploadedFile(
     ),
     content_type='image/gif'
 )
+UPLOADED_TXT = SimpleUploadedFile(
+    name='test.txt',
+    content=(
+        'Текст файла'.encode()
+    ),
+    content_type='text/plane'
+)
 POST_CREATE_URL = 'posts:post_create'
 POST_EDIT_URL = 'posts:post_edit'
 USER_USERNAME = 'TestName'
@@ -40,7 +47,6 @@ class PostCreateFormTests(TestCase):
             description='Тестовое описание'
         )
         Post.objects.create(
-            id=1,
             text=POST_TEXT,
             author=User.objects.create_user(username=POST_AUTHOR_USERNAME),
             group=Group.objects.get(slug=GROUP_SLUG)
@@ -68,15 +74,27 @@ class PostCreateFormTests(TestCase):
             'text': 'Тестовый текст 2',
             'image': UPLOADED_IMG,
         }
+        form_data_with_wrong_img = {
+            'text': 'Тестовый текст 3',
+            'image': UPLOADED_TXT,
+        }
         self.authorized_client.post(
             reverse(POST_CREATE_URL),
             data=form_data,
             follow=True
         )
+        self.authorized_client.post(
+            reverse(POST_CREATE_URL),
+            data=form_data_with_wrong_img,
+            follow=True
+        )
         self.assertEqual(posts_count + 1, Post.objects.count())
+        self.assertFalse(
+            Post.objects.filter(text='Тестовый текст 3').exists()
+        )
         self.assertEqual(
-            Post.objects.get(text='Тестовый текст 2'),
-            Post.objects.filter(text='Тестовый текст 2').last()
+            Post.objects.first().text,
+            'Тестовый текст 2'
         )
 
     def test_post_edit(self):

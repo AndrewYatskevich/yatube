@@ -15,7 +15,9 @@
   </head>
   <body>       
     <header>
-      {% include 'includes/header.html' %}
+      {% block header %}
+        {% include 'includes/header.html' %}
+      {% endblock %}
     </header>
     <main>
       <div class="container py-5">

@@ -67,6 +67,13 @@ class Comment(models.Model):
     text = models.TextField('Текст комментария')
     created = models.DateTimeField('Дата комментария', auto_now_add=True)
 
+    class Meta:
+        verbose_name = 'Комментарий'
+        verbose_name_plural = 'Комментарии'
+
+    def __str__(self):
+        return self.text[:15]
+
 
 class Follow(models.Model):
     user = models.ForeignKey(
@@ -79,3 +86,18 @@ class Follow(models.Model):
         on_delete=models.CASCADE,
         related_name='following'
     )
+
+    class Meta:
+        verbose_name = 'Подписка'
+        verbose_name_plural = 'Подписки'
+        unique_together = [['user', 'author']]
+        constraints = [
+            models.CheckConstraint(
+                check=~models.Q(user=models.F('author')),
+                name='own_subscription'
+            ),
+        ]
+
+    def __str__(self):
+        return (f'Пользователь {self.user.username}'
+                f' подписан на пользователя {self.author.username}')
