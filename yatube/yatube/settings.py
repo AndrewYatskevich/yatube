@@ -28,13 +28,14 @@ EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
 SECRET_KEY = '(iv1u!phd=x%h!47xumkr(fbk*s^5@mk1rn!r5=2ksezm*536m'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
     '[::1]',
     'testserver',
+    '84.201.158.190'
 ]
 
 
@@ -133,6 +134,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
