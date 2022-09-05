@@ -31,10 +31,9 @@ SECRET_KEY = '(iv1u!phd=x%h!47xumkr(fbk*s^5@mk1rn!r5=2ksezm*536m'
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    '84.201.158.190',
     'localhost',
-    '127.0.0.1',
-    '[::1]',
-    'testserver',
+    'ay-yatube.ddns.net'
 ]
 
 
